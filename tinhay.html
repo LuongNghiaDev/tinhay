@@ -1,53 +1,62 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác minh bảo mật...</title>
+    <title>Redirecting...</title>
     <script>
-        (function() {
-            // URL đích chính xác - sử dụng cơ chế shortlink của Shopee
-            const targetUrl = "https://s.shopee.vn/BG1zYML7g?" + new URLSearchParams({
-                ref: 'dr_' + Math.random().toString(36).slice(2, 9),
-                from: 'external',
-                utm_source: 'direct',
-                _r: Date.now(),
-                redirect_sig: Math.random().toString(36).slice(2)
-            }).toString();
-
-            // 1. Tạo iframe ẩn để thiết lập cookie domain
-            const cookieFrame = document.createElement('iframe');
-            cookieFrame.style.cssText = 'width:0;height:0;border:0;visibility:hidden';
-            cookieFrame.sandbox = 'allow-same-origin allow-scripts';
-            cookieFrame.src = "https://shopee.vn/generate_cookie_page.html"; // Trang giả để thiết lập cookie
-            document.body.appendChild(cookieFrame);
-
-            // 2. Chuyển hướng chính SIÊU TỐC sau 30ms
-            setTimeout(() => {
-                // Phương thức ưu tiên: location.replace (không lưu history)
+    (function(){
+        // URL đích - thay bằng link của bạn
+        const TARGET_URL = "https://s.shopee.vn/BG1zYML7g";
+        
+        // ===== CORE TECHNIQUE ===== //
+        function triggerRealClick() {
+            // 1. Tạo nút ẩn
+            const btn = document.createElement('button');
+            btn.style.display = 'none';
+            document.body.appendChild(btn);
+            
+            // 2. Thêm sự kiện click
+            btn.addEventListener('click', function() {
+                // Thêm tham số tracking động
+                const finalUrl = new URL(TARGET_URL);
+                finalUrl.searchParams.append('ref', 'dr_' + Date.now());
+                
+                // Chuyển hướng không lưu history
                 try {
-                    window.location.replace(targetUrl);
+                    window.location.replace(finalUrl.href);
                 } catch(e) {
-                    // Dự phòng 1: location.href
-                    window.location.href = targetUrl;
+                    window.location.href = finalUrl.href;
                 }
-            }, 30);
-
-            // 3. Dự phòng nâng cao nếu bị chặn
-            setTimeout(() => {
-                // Phương thức ẩn: Sử dụng window.open
-                const newWindow = window.open('', '_self');
-                newWindow.location.href = targetUrl;
-            }, 150);
-
-            // Kích hoạt khi có tương tác (tăng tỷ lệ thành công)
-            document.addEventListener('click', () => {
-                window.location.href = targetUrl;
-            }, { once: true });
-        })();
+            });
+            
+            // 3. Kích hoạt chuỗi sự kiện giống người thật
+            ['mouseover', 'mousedown', 'click'].forEach(eventType => {
+                btn.dispatchEvent(new MouseEvent(eventType, {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            });
+        }
+        
+        // ===== TỰ ĐỘNG KÍCH HOẠT NHANH ===== //
+        setTimeout(triggerRealClick, 100); // Kích hoạt sau 100ms
+        
+        // ===== HỆ THỐNG DỰ PHÒNG ===== //
+        // Lớp 1: Meta refresh (dành cho trình duyệt cũ)
+        document.write('<meta http-equiv="refresh" content="2;url='+TARGET_URL+'">');
+        
+        // Lớp 2: Dùng window.open nếu bị chặn
+        setTimeout(function() {
+            window.open(TARGET_URL, '_self');
+        }, 500);
+        
+        // Lớp 3: Emergency redirect
+        setTimeout(function() {
+            window.location.href = TARGET_URL;
+        }, 1000);
+    })();
     </script>
-    <!-- Meta refresh dự phòng -->
-    <meta http-equiv="refresh" content="0.7;url=https://s.shopee.vn/BG1zYML7g">
 </head>
 <body>
 </body>
