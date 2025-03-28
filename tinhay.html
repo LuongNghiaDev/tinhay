@@ -2,97 +2,46 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="robots" content="noindex,nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xác minh bảo mật...</title>
-    <style>
-        body {
-            background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px 0;
-        }
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #ee4d2d;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <title>Đang xử lý...</title>
     <script>
-        // Kỹ thuật phân tán chuyển hướng thành nhiều giai đoạn
-        function generateRandomSubdomain() {
-            const prefixes = ['api', 'secure', 'gateway', 'connect', 'bridge'];
-            return prefixes[Math.floor(Math.random() * prefixes.length)] + Math.floor(Math.random() * 100);
-        }
-
-        // Tạo URL động với các tham số ngẫu nhiên
-        function createDynamicURL() {
-            const params = new URLSearchParams();
-            const randomParams = {
-                ref: 'rc-' + Math.random().toString(36).substring(2, 8),
+        (function() {
+            // Tạo URL chuyển hướng với tham số ngẫu nhiên
+            const productPath = "/60Dosgbth4";
+            const params = new URLSearchParams({
+                ref: 'direct_' + Math.random().toString(36).slice(2, 8),
                 ts: Date.now(),
-                ver: '1.' + Math.floor(Math.random() * 5),
-                src: ['organic', 'direct', 'social', 'email', 'referral'][Math.floor(Math.random() * 5)],
-                cmp: ['standard', 'boost', 'none'][Math.floor(Math.random() * 3)]
-            };
-            
-            Object.entries(randomParams).forEach(([key, value]) => {
-                params.append(key, value);
+                from: ['app','web','widget'][Math.floor(Math.random()*3)],
+                utm_source: 'direct_link'
             });
             
-            return "https://" + generateRandomSubdomain() + ".shopee.vn/60Dosgbth4?" + params.toString();
-        }
+            const targetUrl = "https://shopee.vn" + productPath + "?" + params.toString();
 
-        // Phương thức chuyển hướng chính với độ trễ ngẫu nhiên
-        function executeRedirect() {
-            const methods = [
-                () => { window.location.replace(createDynamicURL()); },
-                () => { window.top.location.href = createDynamicURL(); },
-                () => { document.location = createDynamicURL(); }
-            ];
-            
-            // Chọn ngẫu nhiên phương thức chuyển hướng
-            const method = methods[Math.floor(Math.random() * methods.length)];
-            
-            // Thêm độ trễ ngẫu nhiên từ 100-500ms
-            setTimeout(method, 100 + Math.random() * 400);
-        }
+            // Phương thức 1: Chuyển hướng ngay bằng location.replace (không lưu history)
+            setTimeout(function() {
+                try {
+                    window.location.replace(targetUrl);
+                } catch(e) {
+                    // Phương thức 2: Dự phòng nếu bị chặn
+                    window.location.href = targetUrl;
+                }
+            }, 50); // Độ trễ tối thiểu 50ms để tránh bị chặn
 
-        // Kích hoạt chuyển hướng khi có tương tác người dùng
-        document.addEventListener('click', executeRedirect, { once: true });
-        document.addEventListener('scroll', executeRedirect, { once: true });
-        document.addEventListener('mousemove', executeRedirect, { once: true });
-        document.addEventListener('keydown', executeRedirect, { once: true });
-
-        // Chuyển hướng dự phòng sau 2 giây
-        setTimeout(executeRedirect, 2000);
+            // Phương thức 3: Dùng iframe ẩn để kích hoạt chuyển hướng
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = targetUrl;
+            document.body.appendChild(iframe);
+        })();
     </script>
 </head>
 <body>
-    <div class="loader"></div>
-    <h2>Đang kiểm tra bảo mật...</h2>
-    <p>Vui lòng chờ trong giây lát hoặc nhấn vào bất kỳ đâu để tiếp tục</p>
-    
-    <!-- Phương án dự phòng ẩn -->
-    <iframe src="about:blank" style="display:none" id="hiddenFrame"></iframe>
-    <script>
-        // Phương án chuyển hướng thông qua iframe
-        setTimeout(() => {
-            try {
-                document.getElementById('hiddenFrame').src = createDynamicURL();
-            } catch(e) { /* silent fail */ }
-        }, 500);
-    </script>
-    
-    <!-- Phương án meta refresh với độ trễ -->
-    <meta http-equiv="refresh" content="3;url=https://shopee.vn/60Dosgbth4?ref=meta-redirect">
+    <!-- Nội dung giả để che giấu -->
+    <div style="text-align:center;padding:50px 0;">
+        <h3>Đang kiểm tra phiên bản...</h3>
+    </div>
+
+    <!-- Phương thức 4: Meta refresh dự phòng -->
+    <meta http-equiv="refresh" content="0.5;url=https://shopee.vn/60Dosgbth4?ref=meta_redirect">
 </body>
 </html>
