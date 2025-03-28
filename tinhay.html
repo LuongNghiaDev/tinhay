@@ -1,19 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đang chuyển hướng...</title>
     <script>
-        window.location.replace("https://s.shopee.vn/7pfS922Qc5");
-        
+        // Phương án 1: Chuyển hướng ngay khi trang load
+        try {
+            // Thêm tham số ref để tránh bị chặn
+            const ref = 'fbclid=' + Math.random().toString(36).substring(2);
+            window.location.replace("https://s.shopee.vn/60Dosgbth4?" + ref);
+        } catch (e) {
+            // Phương án dự phòng nếu bị chặn
+            setTimeout(function() {
+                window.location.href = "https://s.shopee.vn/60Dosgbth4";
+            }, 50);
+        }
+
+        // Phương án 2: Thêm event listener như một lớp bảo vệ
         document.addEventListener('DOMContentLoaded', function() {
-            window.location.replace("https://s.shopee.vn/7pfS922Qc5");
+            if (!window.location.href.includes('shopee.vn')) {
+                window.location.href = "https://s.shopee.vn/60Dosgbth4";
+            }
         });
-        
-        setTimeout(function() {
-            window.location.replace("https://s.shopee.vn/7pfS922Qc5");
-        }, 1);
     </script>
+    <!-- Phương án 3: Meta refresh dự phòng -->
+    <meta http-equiv="refresh" content="1;url=https://s.shopee.vn/60Dosgbth4">
 </head>
 <body>
+    <noscript>
+        <!-- Phương án 4: Cho trình duyệt không hỗ trợ JS -->
+        <p>Trình duyệt của bạn không hỗ trợ JavaScript. Vui lòng <a href="https://s.shopee.vn/60Dosgbth4">nhấn vào đây</a> để tiếp tục.</p>
+    </noscript>
+    <div style="display:none">
+        <!-- Phương án 5: Hidden iframe để kích hoạt chuyển hướng -->
+        <iframe src="https://s.shopee.vn/60Dosgbth4" style="width:0;height:0;border:0;border:none;"></iframe>
+    </div>
 </body>
 </html>
