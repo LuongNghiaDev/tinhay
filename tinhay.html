@@ -3,25 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title giống Facebook -->
-    <title>[HOT] Bí mật đằng sau những câu chuyện chưa kể | Hóng chuyện | Facebook</title>
-    <!-- Meta để hiển thị đẹp khi share link -->
-    <meta property="og:title" content="[HOT] Bí mật đằng sau những câu chuyện chưa kể">
-    <meta property="og:description" content="Cộng đồng chia sẻ những câu chuyện thú vị nhất">
-    <meta property="og:image" content="https://example.com/fake-facebook-thumbnail.jpg">
+    <!-- Title chuẩn Facebook: Tên nhóm + | Facebook -->
+    <title>Hóng chuyện | Facebook</title>
+    
+    <!-- Meta tags để khi share link hiển thị đẹp -->
+    <meta property="og:site_name" content="Hóng chuyện | Facebook">
+    <meta property="og:title" content="Hóng chuyện">
+    <meta property="og:description" content="Nhóm chia sẻ những câu chuyện hấp dẫn nhất">
+    <meta property="og:image" content="https://scontent.fhan14-5.fna.fbcdn.net/v/t39.30808-6/454973783_460964553590282_3134737943987375363_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=2285d6&_nc_ohc=5YUiUGXPabEQ7kNvgGx2oQx&_nc_oc=AdnfZ3WEEPb14C3FVmZgmu4NlUU95XzklSt4dD-f3MAuFo9guquLkLEOYbpat2wvGMs&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&_nc_gid=MgBXH-NcwxEmi5oFszSoVw&oh=00_AYEcaBzwF_ChvyZBWGHHC8xSiqnzPFTLXFfVvAPDhNIxTA&oe=67EC1702">
+    <meta property="og:type" content="website">
+
     <style>
-        body { 
+        /* Reset CSS để giống giao diện Facebook */
+        body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
             background-color: #f0f2f5;
             color: #1c1e21;
         }
-        .facebook-header {
+        
+        /* Header giống Facebook */
+        .fb-header {
             background-color: #1877f2;
-            padding: 10px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+        
+        .fb-logo {
             color: white;
-            text-align: center;
             font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* Card bài viết giống Facebook */
+        .fb-post {
+            background: white;
+            border-radius: 8px;
+            margin: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .fb-post-header {
+            display: flex;
+            padding: 12px;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .fb-group-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .fb-group-name {
+            font-weight: 600;
+        }
+        
+        .fb-loading {
+            padding: 20px;
+            text-align: center;
+            color: #65676b;
         }
     </style>
     <script>
