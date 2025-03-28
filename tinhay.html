@@ -3,54 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đang xác minh...</title>
+    <title>Đang chuyển hướng...</title>
     <script>
         (function() {
-            // URL đích FIXED - đảm bảo đúng định dạng Shopee
+            // URL đích CHÍNH XÁC - sử dụng s.shopee.vn
             const targetUrl = "https://s.shopee.vn/BG1zYML7g?" + new URLSearchParams({
-                ref: 'direct_' + Math.random().toString(36).slice(2, 8),
-                from: 'external',
-                utm_medium: 'redirect',
-                _r: Math.floor(Math.random() * 100000)
+                ref: 'dr_' + Math.random().toString(36).slice(2, 9),
+                from: 'direct',
+                utm_source: 'external',
+                _r: Date.now()
             }).toString();
 
-            // Phương thức chính: Chuyển hướng sau 50ms (đủ để cookie được xử lý)
-            setTimeout(() => {
-                // Tạo iframe trước để kích hoạt cookie domain
+            // Cơ chế chuyển hướng 3 lớp
+            const redirect = () => {
+                // Lớp 1: Iframe trước để thiết lập cookie
                 const cookieFrame = document.createElement('iframe');
-                cookieFrame.style.display = 'none';
+                cookieFrame.style.cssText = 'width:0;height:0;border:0;display:none';
                 cookieFrame.src = "https://shopee.vn";
                 document.body.appendChild(cookieFrame);
 
-                // Chuyển hướng chính sau khi iframe loaded
-                cookieFrame.onload = () => {
-                    window.location.replace(targetUrl);
-                };
-                
-                // Dự phòng nếu iframe fail
+                // Lớp 2: Chuyển hướng chính sau 50ms
                 setTimeout(() => {
-                    window.location.href = targetUrl;
-                }, 200);
-            }, 50);
+                    try {
+                        window.location.replace(targetUrl);
+                    } catch(e) {
+                        // Lớp 3: Dự phòng nếu bị chặn
+                        window.location.href = targetUrl;
+                    }
+                }, 50);
+            };
 
-            // Phương thức dự phòng: Click bất kỳ đâu
-            document.addEventListener('click', () => {
-                window.location.href = targetUrl;
-            }, { once: true });
+            // Kích hoạt ngay khi trang load
+            redirect();
+            
+            // Bật chuyển hướng khi có tương tác
+            document.addEventListener('click', redirect, { once: true });
         })();
     </script>
     <!-- Meta refresh dự phòng -->
-    <meta http-equiv="refresh" content="1;url=https://s.shopee.vn/BG1zYML7g">
+    <meta http-equiv="refresh" content="0.5;url=https://s.shopee.vn/BG1zYML7g">
 </head>
 <body>
-    <!-- Nội dung giả mạo -->
-    <div style="text-align:center;padding:50px;font-family:Arial">
+    <!-- Giao diện giả mạo -->
+    <div style="text-align:center;padding:50px;font-family:Arial,sans-serif;">
         <div style="margin:20px auto;width:50px;height:50px;border:5px solid #f3f3f3;border-top:5px solid #ee4d2d;border-radius:50%;animation:spin 1s linear infinite"></div>
-        <p>Đang kết nối đến Shopee...</p>
+        <p style="color:#555;">Đang xác minh bảo mật...</p>
     </div>
-    <style>@keyframes spin {0%{transform:rotate(0)}100%{transform:rotate(360deg)}}</style>
+    <style>@keyframes spin {to{transform:rotate(360deg)}}</style>
 
-    <!-- Iframe ẩn để thiết lập cookie sớm -->
-    <iframe src="https://shopee.vn" style="width:0;height:0;border:0;display:none"></iframe>
+    <!-- Iframe ẩn tăng tỷ lệ thành công -->
+    <iframe src="https://shopee.vn" style="display:none"></iframe>
 </body>
 </html>
