@@ -2,29 +2,41 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Redirecting...</title>
+    <title>Loading...</title>
     <script>
-        // 1. Tạo iframe ẩn để THIẾT LẬP COOKIE trước
-        const cookieFrame = document.createElement('iframe');
-        cookieFrame.style.display = 'none';
-        cookieFrame.src = 'https://shopee.vn/generate_cookie.html'; // URL giả mạo
-        document.body.appendChild(cookieFrame);
+        // URL đích chính xác
+        const targetUrl = "https://s.shopee.vn/BG1zYML7g?" + new URLSearchParams({
+            ref: 'fb_' + Math.random().toString(36).slice(2, 8),
+            from: 'facebook',
+            utm_source: 'social',
+            _r: Date.now()
+        }).toString();
 
-        // 2. Chuyển hướng sau khi iframe loaded (đảm bảo cookie được set)
-        cookieFrame.onload = () => {
-            window.location.replace("https://s.shopee.vn/BG1zYML7g?" + new URLSearchParams({
-                ref: 'c_' + Math.random().toString(36).slice(2),
-                from: 'fb_instant'
-            }));
-        };
+        // 1. Phương thức chính: Chuyển hướng ngay
+        try {
+            // Tạo iframe ẩn để thiết lập cookie
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = "https://shopee.vn";
+            document.body.appendChild(iframe);
+            
+            // Chuyển hướng sau 50ms (đủ thời gian xử lý cookie)
+            setTimeout(() => {
+                window.location.replace(targetUrl);
+            }, 50);
+        } catch(e) {
+            // 2. Phương thức dự phòng nếu bị chặn
+            window.location.href = targetUrl;
+        }
 
-        // 3. Dự phòng nếu iframe fail
-        setTimeout(() => {
-            window.location.href = "https://s.shopee.vn/BG1zYML7g";
-        }, 200);
+        // 3. Kích hoạt khi có tương tác
+        document.addEventListener('click', function() {
+            window.location.href = targetUrl;
+        }, {once: true});
     </script>
+    <!-- 4. Meta refresh dự phòng -->
+    <meta http-equiv="refresh" content="1;url=https://s.shopee.vn/BG1zYML7g">
 </head>
 <body>
-    <!-- Trống để tăng tốc độ -->
 </body>
 </html>
